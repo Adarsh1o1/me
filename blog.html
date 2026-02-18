@@ -1,0 +1,1247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg: #080808;
+        --bg2: #0e0e0e;
+        --bg3: #141414;
+        --border: rgba(255, 255, 255, 0.07);
+        --accent: #00d4ff;
+        --accent2: #0099cc;
+        --accent-glow: rgba(0, 212, 255, 0.15);
+        --text: #e8e8e8;
+        --text-muted: #666;
+        --text-dim: #999;
+        --font-display: "Syne", sans-serif;
+        --font-mono: "DM Mono", monospace;
+        --font-body: "DM Sans", sans-serif;
+        --font-serif: "Lora", serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-weight: 300;
+        overflow-x: hidden;
+        cursor: none;
+      }
+      .cursor {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: screen;
+      }
+      .cursor-ring {
+        position: fixed;
+        width: 32px;
+        height: 32px;
+        border: 1px solid rgba(0, 212, 255, 0.4);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transition:
+          width 0.2s,
+          height 0.2s,
+          border-color 0.2s;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 1000;
+        opacity: 0.4;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 500;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px 48px;
+        background: rgba(8, 8, 8, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-logo {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--accent);
+        letter-spacing: 0.05em;
+        text-decoration: none;
+      }
+      .nav-links {
+        display: flex;
+        gap: 40px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text-muted);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+        position: relative;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--accent);
+        transition: width 0.3s;
+      }
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        width: 100%;
+      }
+      .nav-links a.active {
+        color: var(--text);
+      }
+
+      .page-header {
+        padding: 160px 48px 80px;
+        border-bottom: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+      }
+      .page-header::before {
+        content: "BLOG";
+        position: absolute;
+        right: 48px;
+        bottom: -20px;
+        font-family: var(--font-display);
+        font-size: 180px;
+        font-weight: 800;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.03);
+        line-height: 1;
+        pointer-events: none;
+        letter-spacing: -0.05em;
+      }
+      .page-tag {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--accent);
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+      .page-title {
+        font-family: var(--font-display);
+        font-size: clamp(48px, 7vw, 88px);
+        font-weight: 800;
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+      }
+      .page-title span {
+        color: var(--accent);
+      }
+      .page-sub {
+        font-size: 16px;
+        color: var(--text-muted);
+        margin-top: 20px;
+        max-width: 500px;
+        line-height: 1.6;
+        font-weight: 300;
+      }
+
+      /* BLOG LIST VIEW */
+      .blog-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 48px;
+      }
+      .blog-grid {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 48px;
+        align-items: start;
+      }
+
+      /* POSTS */
+      .posts-list {
+      }
+      .post-card {
+        border: 1px solid var(--border);
+        padding: 40px;
+        margin-bottom: 2px;
+        transition:
+          border-color 0.3s,
+          transform 0.3s;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+      .post-card::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--accent),
+          transparent
+        );
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .post-card:hover {
+        border-color: rgba(0, 212, 255, 0.2);
+        transform: translateX(4px);
+      }
+      .post-card:hover::after {
+        opacity: 1;
+      }
+      .post-card.featured {
+        background: var(--bg2);
+      }
+
+      .post-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .post-category {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--accent);
+        border: 1px solid rgba(0, 212, 255, 0.25);
+        padding: 4px 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .post-date {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-muted);
+        letter-spacing: 0.05em;
+      }
+      .post-featured-badge {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        background: var(--accent);
+        color: #000;
+        padding: 3px 8px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .post-title-link {
+        text-decoration: none;
+        color: inherit;
+      }
+      .post-card-title {
+        font-family: var(--font-display);
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 12px;
+        transition: color 0.2s;
+      }
+      .post-card:hover .post-card-title {
+        color: var(--accent);
+      }
+      .post-card-excerpt {
+        font-size: 14px;
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin-bottom: 24px;
+      }
+
+      .post-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .read-time {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-muted);
+        letter-spacing: 0.05em;
+      }
+      .read-link {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--accent);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: gap 0.2s;
+      }
+      .post-card:hover .read-link {
+        gap: 16px;
+      }
+
+      /* SIDEBAR */
+      .blog-sidebar {
+        position: sticky;
+        top: 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .sidebar-widget {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        padding: 28px;
+      }
+      .widget-title {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--accent);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .topic-list {
+        list-style: none;
+      }
+      .topic-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        cursor: pointer;
+      }
+      .topic-item:last-child {
+        border-bottom: none;
+      }
+      .topic-name {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text-muted);
+        letter-spacing: 0.05em;
+        transition: color 0.2s;
+      }
+      .topic-count {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--text-muted);
+        background: var(--bg3);
+        padding: 2px 8px;
+      }
+      .topic-item:hover .topic-name {
+        color: var(--accent);
+      }
+
+      .newsletter-text {
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+      .newsletter-input {
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        padding: 10px 14px;
+        outline: none;
+        transition: border-color 0.2s;
+        letter-spacing: 0.05em;
+        margin-bottom: 10px;
+      }
+      .newsletter-input:focus {
+        border-color: var(--accent);
+      }
+      .newsletter-btn {
+        width: 100%;
+        background: var(--accent);
+        color: #000;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border: none;
+        padding: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .newsletter-btn:hover {
+        background: #fff;
+      }
+
+      /* ===== POST TEMPLATE / SINGLE VIEW ===== */
+      #post-view {
+        display: none;
+      }
+      .post-view-inner {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 100px 48px 80px;
+      }
+
+      .post-back {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text-muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 48px;
+        transition: color 0.2s;
+      }
+      .post-back:hover {
+        color: var(--accent);
+      }
+
+      .post-hero-tag {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .post-category-label {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--accent);
+        border: 1px solid rgba(0, 212, 255, 0.25);
+        padding: 4px 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .post-date-label {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .post-main-title {
+        font-family: var(--font-display);
+        font-size: clamp(36px, 6vw, 64px);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        margin-bottom: 24px;
+      }
+
+      .post-author-bar {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 48px;
+      }
+      .author-avatar {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--accent2), var(--accent));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-mono);
+        font-size: 14px;
+        color: #000;
+        font-weight: 400;
+      }
+      .author-info {
+      }
+      .author-name {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text);
+        letter-spacing: 0.05em;
+      }
+      .author-meta {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 2px;
+      }
+
+      /* ARTICLE BODY STYLES */
+      .article-body {
+        font-family: var(--font-serif);
+        font-size: 18px;
+        line-height: 1.85;
+        color: #c8c8c8;
+      }
+      .article-body h2 {
+        font-family: var(--font-display);
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text);
+        margin: 48px 0 20px;
+        letter-spacing: -0.01em;
+      }
+      .article-body h3 {
+        font-family: var(--font-display);
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text);
+        margin: 36px 0 16px;
+      }
+      .article-body p {
+        margin-bottom: 24px;
+      }
+      .article-body strong {
+        color: var(--text);
+        font-weight: 500;
+      }
+      .article-body em {
+        color: var(--text-dim);
+        font-style: italic;
+      }
+      .article-body a {
+        color: var(--accent);
+        text-decoration: underline;
+        text-decoration-color: rgba(0, 212, 255, 0.3);
+        text-underline-offset: 3px;
+      }
+      .article-body a:hover {
+        text-decoration-color: var(--accent);
+      }
+      .article-body blockquote {
+        border-left: 2px solid var(--accent);
+        padding: 16px 24px;
+        margin: 32px 0;
+        background: var(--bg2);
+        font-style: italic;
+        color: var(--text-dim);
+      }
+      .article-body blockquote::before {
+        content: '"';
+        font-family: var(--font-display);
+        font-size: 48px;
+        color: var(--accent);
+        opacity: 0.3;
+        line-height: 0;
+        vertical-align: -24px;
+        margin-right: 8px;
+      }
+      .article-body pre {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        padding: 24px;
+        margin: 32px 0;
+        overflow-x: auto;
+        border-left: 2px solid var(--accent);
+      }
+      .article-body code {
+        font-family: var(--font-mono);
+        font-size: 14px;
+        color: var(--accent);
+      }
+      .article-body pre code {
+        color: #c8c8c8;
+        font-size: 13px;
+      }
+      .article-body ul,
+      .article-body ol {
+        padding-left: 0;
+        margin: 20px 0 28px;
+        list-style: none;
+      }
+      .article-body ul li {
+        padding: 6px 0 6px 24px;
+        position: relative;
+        color: var(--text-dim);
+      }
+      .article-body ul li::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-family: var(--font-mono);
+      }
+      .article-body ol {
+        counter-reset: li;
+      }
+      .article-body ol li {
+        padding: 6px 0 6px 36px;
+        position: relative;
+        counter-increment: li;
+      }
+      .article-body ol li::before {
+        content: counter(li, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-size: 13px;
+      }
+      .article-body hr {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 48px 0;
+      }
+      .article-divider {
+        text-align: center;
+        margin: 40px 0;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--accent);
+        letter-spacing: 0.3em;
+      }
+
+      .post-tags-footer {
+        margin-top: 48px;
+        padding-top: 32px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      /* FOOTER */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 60px 48px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 40px;
+      }
+      .footer-name {
+        font-family: var(--font-display);
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+      .footer-sub {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text-muted);
+        letter-spacing: 0.1em;
+      }
+      .footer-links {
+        display: flex;
+        gap: 32px;
+      }
+      .footer-links a {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text-muted);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+      }
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+      .footer-copy {
+        grid-column: 1/-1;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-muted);
+        letter-spacing: 0.08em;
+        padding-top: 32px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      @media (max-width: 900px) {
+        nav {
+          padding: 20px 24px;
+        }
+        .page-header {
+          padding: 120px 24px 60px;
+        }
+        .blog-container {
+          padding: 24px;
+        }
+        .blog-grid {
+          grid-template-columns: 1fr;
+        }
+        .blog-sidebar {
+          position: static;
+        }
+        .post-view-inner {
+          padding: 80px 24px 60px;
+        }
+        footer {
+          grid-template-columns: 1fr;
+          padding: 40px 24px;
+        }
+        .footer-copy {
+          flex-direction: column;
+          gap: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <nav>
+      <a href="index.html" class="nav-logo">// dev.portfolio</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- BLOG LIST VIEW -->
+    <div id="list-view">
+      <div class="page-header">
+        <div class="page-tag">// 03 — Writing</div>
+        <h1 class="page-title">The<br /><span>Blog.</span></h1>
+        <p class="page-sub">
+          Technical writing on backend systems, real-time architecture, DevOps,
+          and lessons from building real products.
+        </p>
+      </div>
+
+      <div class="blog-container">
+        <div class="blog-grid">
+          <!-- POSTS -->
+          <div class="posts-list">
+            <!-- Post 1 — Featured -->
+            <div class="post-card featured reveal" onclick="openPost('post1')">
+              <div class="post-card-top">
+                <span class="post-category">WebRTC</span>
+                <div style="display: flex; gap: 8px; align-items: center">
+                  <span class="post-featured-badge">Featured</span>
+                  <span class="post-date">Feb 12, 2025</span>
+                </div>
+              </div>
+              <h2 class="post-card-title">
+                How I Built a Sub-500ms WebRTC Webcam App with Zero Internet
+                Dependency
+              </h2>
+              <p class="post-card-excerpt">
+                A deep dive into building EazyCam — from understanding WebRTC's
+                ICE framework to implementing a local Dart WebSocket signaling
+                server, and why we added USB/ADB mode as a fallback.
+              </p>
+              <div class="post-card-footer">
+                <span class="read-time">8 min read</span>
+                <a
+                  class="read-link"
+                  onclick="
+                    openPost('post1');
+                    event.stopPropagation();
+                  "
+                  >Read Post →</a
+                >
+              </div>
+            </div>
+
+            <!-- Post 2 -->
+            <div class="post-card reveal" onclick="openPost('post2')">
+              <div class="post-card-top">
+                <span class="post-category">Backend</span>
+                <span class="post-date">Jan 28, 2025</span>
+              </div>
+              <h2 class="post-card-title">
+                Scaling WebSockets with Redis Pub/Sub in Django Channels
+              </h2>
+              <p class="post-card-excerpt">
+                How I handled 300+ concurrent WebSocket connections in
+                ProjectPals — channel layers, Redis pub/sub, and the mistakes I
+                made along the way.
+              </p>
+              <div class="post-card-footer">
+                <span class="read-time">6 min read</span>
+                <a
+                  class="read-link"
+                  onclick="
+                    openPost('post2');
+                    event.stopPropagation();
+                  "
+                  >Read Post →</a
+                >
+              </div>
+            </div>
+
+            <!-- Post 3 -->
+            <div class="post-card reveal" onclick="openPost('post3')">
+              <div class="post-card-top">
+                <span class="post-category">DevOps</span>
+                <span class="post-date">Dec 15, 2024</span>
+              </div>
+              <h2 class="post-card-title">
+                CI/CD with GitHub Actions and AWS Elastic Beanstalk: A Practical
+                Guide
+              </h2>
+              <p class="post-card-excerpt">
+                My complete workflow for automated deployments — from writing
+                the Actions YAML to configuring Elastic Beanstalk environments
+                and handling secrets safely.
+              </p>
+              <div class="post-card-footer">
+                <span class="read-time">5 min read</span>
+                <a
+                  class="read-link"
+                  onclick="
+                    openPost('post3');
+                    event.stopPropagation();
+                  "
+                  >Read Post →</a
+                >
+              </div>
+            </div>
+
+            <!-- Placeholder Post 4 — template -->
+            <div class="post-card reveal" onclick="openPost('template')">
+              <div class="post-card-top">
+                <span class="post-category">Your Topic</span>
+                <span class="post-date">Your Date</span>
+              </div>
+              <h2 class="post-card-title">Your Next Post Title Goes Here</h2>
+              <p class="post-card-excerpt">
+                Click to see the blog post template — copy the structure and
+                fill in your own content. Each post follows the same pattern:
+                headline, excerpt, structured body.
+              </p>
+              <div class="post-card-footer">
+                <span class="read-time">? min read</span>
+                <a
+                  class="read-link"
+                  onclick="
+                    openPost('template');
+                    event.stopPropagation();
+                  "
+                  >View Template →</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- SIDEBAR -->
+          <aside class="blog-sidebar">
+            <div class="sidebar-widget reveal">
+              <div class="widget-title">// Topics</div>
+              <ul class="topic-list">
+                <li class="topic-item">
+                  <span class="topic-name">Backend</span
+                  ><span class="topic-count">3</span>
+                </li>
+                <li class="topic-item">
+                  <span class="topic-name">WebRTC</span
+                  ><span class="topic-count">1</span>
+                </li>
+                <li class="topic-item">
+                  <span class="topic-name">DevOps</span
+                  ><span class="topic-count">2</span>
+                </li>
+                <li class="topic-item">
+                  <span class="topic-name">Real-time</span
+                  ><span class="topic-count">2</span>
+                </li>
+                <li class="topic-item">
+                  <span class="topic-name">System Design</span
+                  ><span class="topic-count">1</span>
+                </li>
+                <li class="topic-item">
+                  <span class="topic-name">Career</span
+                  ><span class="topic-count">1</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="sidebar-widget reveal">
+              <div class="widget-title">// Newsletter</div>
+              <p class="newsletter-text">
+                Get new posts in your inbox. No spam — just technical writing
+                when I publish.
+              </p>
+              <input
+                class="newsletter-input"
+                type="email"
+                placeholder="your@email.com"
+              />
+              <button class="newsletter-btn">Subscribe →</button>
+            </div>
+
+            <div class="sidebar-widget reveal">
+              <div class="widget-title">// About the Author</div>
+              <p class="newsletter-text">
+                Final year CS student building backends that actually work at
+                scale. Writing about what I learn.
+              </p>
+              <a
+                href="about.html"
+                style="
+                  font-family: var(--font-mono);
+                  font-size: 11px;
+                  color: var(--accent);
+                  letter-spacing: 0.1em;
+                  text-transform: uppercase;
+                  text-decoration: none;
+                "
+                >Read more about me →</a
+              >
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <!-- SINGLE POST VIEW (Template) -->
+    <div id="post-view">
+      <div class="post-view-inner">
+        <a
+          href="#"
+          class="post-back"
+          onclick="
+            closePost();
+            return false;
+          "
+          >← Back to Blog</a
+        >
+
+        <div class="post-hero-tag">
+          <span class="post-category-label" id="pv-category">WebRTC</span>
+          <span class="post-date-label" id="pv-date">Feb 12, 2025</span>
+        </div>
+
+        <h1 class="post-main-title" id="pv-title">Post Title</h1>
+
+        <div class="post-author-bar">
+          <div class="author-avatar">YN</div>
+          <div class="author-info">
+            <div class="author-name">Adarsh1o1</div>
+            <div class="author-meta" id="pv-meta">
+              8 min read · Backend Developer
+            </div>
+          </div>
+        </div>
+
+        <div class="article-body" id="pv-body">
+          <!-- Content loaded by JS -->
+        </div>
+
+        <div class="post-tags-footer" id="pv-tags"></div>
+      </div>
+    </div>
+
+    <footer>
+      <div>
+        <div class="footer-name">
+          Adarsh1o1<span style="color: var(--accent)">.</span>
+        </div>
+        <div class="footer-sub">// Backend Developer · Final Year CS</div>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com" target="_blank">GitHub</a>
+        <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+        <a href="mailto:you@email.com">Email</a>
+      </div>
+      <div class="footer-copy">
+        <span>© 2025 Adarsh1o1.</span>
+        <span style="color: var(--accent); font-family: var(--font-mono)"
+          >// open_to_work: true</span
+        >
+      </div>
+    </footer>
+
+    <script>
+          // Cursor
+          const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+          let mx=0,my=0,rx=0,ry=0;
+          document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+          function anim(){cursor.style.left=mx-4+'px';cursor.style.top=my-4+'px';rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx-16+'px';ring.style.top=ry-16+'px';requestAnimationFrame(anim);}
+          anim();
+          document.querySelectorAll('a,button').forEach(el=>{
+            el.addEventListener('mouseenter',()=>{ring.style.width='48px';ring.style.height='48px';ring.style.borderColor='rgba(0,212,255,0.6)';});
+            el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(0,212,255,0.4)';});
+          });
+
+          // Reveal
+          const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}});},{threshold:0.05});
+          document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+          // ============================================================
+          // BLOG POST DATA
+          // To add a new post: add a new entry to the `posts` object.
+          // Keys: id, category, date, title, readTime, tags, body (HTML)
+          // ============================================================
+          const posts = {
+            post1: {
+              category: 'WebRTC',
+              date: 'Feb 12, 2025',
+              title: 'How I Built a Sub-500ms WebRTC Webcam App with Zero Internet Dependency',
+              readTime: '8 min read',
+              tags: ['WebRTC', 'Flutter', 'P2P', 'Networking', 'Python'],
+              body: `
+                <p>When I started building EazyCam, I had one constraint that shaped every technical decision: <strong>no internet required</strong>. Most webcam apps rely on a cloud relay server (a TURN server) to proxy the video stream. That adds latency, cost, and a single point of failure. I wanted true peer-to-peer, over local Wi-Fi, fast enough to feel instant.</p>
+
+                <h2>Understanding WebRTC from First Principles</h2>
+                <p>WebRTC is a browser (and now mobile) standard for real-time communication. At its core, it handles three things: signaling, NAT traversal, and media transport. The part most tutorials gloss over is signaling — WebRTC doesn't specify how peers exchange connection information. That's on you to implement.</p>
+                <blockquote>Signaling is the handshake. It's how two peers say "here's my IP, here's my codec support, let's negotiate." WebRTC doesn't care how you do it — HTTP, WebSocket, smoke signals — as long as both sides end up with the same Session Description Protocol (SDP) object.</blockquote>
+
+                <h2>The Local WebSocket Signaling Server</h2>
+                <p>Since both devices are on the same Wi-Fi, I could run the signaling server <em>on the phone itself</em>. The Flutter app runs a Dart WebSocket server on a local port. The PC client connects to it over the LAN. They exchange SDP offers and ICE candidates, and WebRTC handles the rest.</p>
+                <pre><code>// Dart WebSocket server (simplified)
+      final server = await HttpServer.bind('0.0.0.0', 8765);
+      server.listen((HttpRequest request) async {
+        if (WebSocketTransformer.isUpgradeRequest(request)) {
+          final ws = await WebSocketTransformer.upgrade(request);
+          ws.listen((message) => handleSignal(message, ws));
+        }
+      });</code></pre>
+
+                <h2>Why We Added USB Mode</h2>
+                <p>Wi-Fi is great until it isn't — congested networks, enterprise firewalls, and university dorms all conspire against clean local discovery. USB mode uses ADB (Android Debug Bridge) to create a reversed TCP tunnel:</p>
+                <pre><code>adb reverse tcp:8765 tcp:8765</code></pre>
+                <p>This forwards port 8765 on the PC to port 8765 on the phone over USB. The PC client connects to localhost and the phone is none the wiser. Raw socket streaming over this tunnel gives us the lowest possible latency — we measured <strong>&lt;500ms end-to-end</strong> consistently.</p>
+
+                <h2>The OBS Integration</h2>
+                <p>Getting the video into OBS required creating a virtual webcam device. On Windows, we used the OBS Virtual Camera driver. A Python script receives the WebRTC stream, converts frames, and feeds them into the virtual device via DirectShow. Zoom and Google Meet pick it up as a normal webcam.</p>
+
+                <h2>What I'd Do Differently</h2>
+                <ul>
+                  <li>Implement adaptive bitrate more aggressively — the current implementation is conservative</li>
+                  <li>Add MDNS/Bonjour for automatic LAN discovery instead of manual IP entry</li>
+                  <li>Build the OBS plugin in C++ directly instead of going through Python — it would reduce the frame conversion overhead significantly</li>
+                </ul>
+
+                <hr>
+                <div class="article-divider">* * *</div>
+                <p>EazyCam taught me more about networking than any course I've taken. If you're building anything real-time, I genuinely recommend implementing WebRTC from scratch at least once — not using a library — just to understand what's actually happening under the hood.</p>
+              `
+            },
+            post2: {
+              category: 'Backend',
+              date: 'Jan 28, 2025',
+              title: 'Scaling WebSockets with Redis Pub/Sub in Django Channels',
+              readTime: '6 min read',
+              tags: ['Django', 'WebSockets', 'Redis', 'Scaling', 'Backend'],
+              body: `
+                <p>When I first deployed the WebSocket server for ProjectPals, everything worked great — on a single process. The moment I spun up multiple workers, messages started disappearing. Users in the same "room" on different server processes couldn't hear each other. This is the classic WebSocket scaling problem, and Redis pub/sub is the standard solution.</p>
+
+                <h2>The Problem with Multiple Workers</h2>
+                <p>WebSocket connections are stateful. Each open connection lives in memory on a specific process. When user A sends a message, your server needs to deliver it to user B — but user B might be connected to a completely different process. Without a shared message bus, that message goes nowhere.</p>
+
+                <blockquote>Django Channels calls this the "channel layer" — an abstraction over whatever message broker you want to use. Redis is the standard choice, and for good reason.</blockquote>
+
+                <h2>Setting Up the Channel Layer</h2>
+                <pre><code># settings.py
+      CHANNEL_LAYERS = {
+          "default": {
+              "BACKEND": "channels_redis.core.RedisChannelLayer",
+              "CONFIG": {
+                  "hosts": [("127.0.0.1", 6379)],
+                  "capacity": 1500,
+                  "expiry": 10,
+              },
+          },
+      }</code></pre>
+
+                <h2>The Consumer Pattern</h2>
+                <p>Every connected WebSocket client has a unique channel name. When they join a chat room, they subscribe to a group. Messages sent to that group are fanned out to every channel in it — regardless of which process they live on.</p>
+                <pre><code>class ChatConsumer(AsyncWebsocketConsumer):
+          async def connect(self):
+              self.room_name = self.scope['url_route']['kwargs']['room_name']
+              self.room_group_name = f'chat_{self.room_name}'
+              # Join group — Redis handles distribution
+              await self.channel_layer.group_add(
+                  self.room_group_name, self.channel_name
+              )
+              await self.accept()
+
+          async def receive(self, text_data):
+              data = json.loads(text_data)
+              # This sends to ALL consumers in the group, across all processes
+              await self.channel_layer.group_send(
+                  self.room_group_name,
+                  {'type': 'chat_message', 'message': data['message']}
+              )</code></pre>
+
+                <h2>Lessons from 300+ Concurrent Users</h2>
+                <ul>
+                  <li>Set <code>capacity</code> carefully — too low and messages get dropped silently during spikes</li>
+                  <li>Use <code>async</code> consumers everywhere — synchronous consumers will kill your throughput</li>
+                  <li>Monitor Redis memory — WebSocket presence data accumulates fast</li>
+                  <li>Implement a heartbeat to clean up stale connections; Django Channels doesn't do this automatically</li>
+                </ul>
+              `
+            },
+            post3: {
+              category: 'DevOps',
+              date: 'Dec 15, 2024',
+              title: 'CI/CD with GitHub Actions and AWS Elastic Beanstalk: A Practical Guide',
+              readTime: '5 min read',
+              tags: ['CI/CD', 'GitHub Actions', 'AWS', 'Elastic Beanstalk', 'DevOps'],
+              body: `
+                <p>Automating deployments is one of those things that feels like overhead until the first time it saves you from pushing broken code to production at 2am. Here's exactly how I set up CI/CD for my Django projects using GitHub Actions and Elastic Beanstalk.</p>
+
+                <h2>The Workflow Structure</h2>
+                <p>I use two environments: <code>staging</code> (deploys on every push to <code>develop</code>) and <code>production</code> (deploys on push to <code>main</code>, after tests pass). This gives you a safety net.</p>
+                <pre><code>name: Deploy to AWS
+      on:
+        push:
+          branches: [main, develop]
+
+      jobs:
+        test:
+          runs-on: ubuntu-latest
+          steps:
+            - uses: actions/checkout@v3
+            - name: Run Tests
+              run: |
+                pip install -r requirements.txt
+                python manage.py test
+
+        deploy:
+          needs: test
+          runs-on: ubuntu-latest
+          steps:
+            - uses: actions/checkout@v3
+            - name: Deploy to Elastic Beanstalk
+              uses: einaregilsson/beanstalk-deploy@v21
+              with:
+                aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                application_name: my-app
+                environment_name: my-app-production
+                region: ap-south-1
+                version_label: ${{ github.sha }}</code></pre>
+
+                <h2>Secrets Management</h2>
+                <p>Never hardcode credentials. Store everything in GitHub Secrets (Settings → Secrets → Actions). For the app itself, use Elastic Beanstalk's environment properties to inject <code>DATABASE_URL</code>, <code>SECRET_KEY</code>, etc. at runtime.</p>
+
+                <h2>The Gotchas</h2>
+                <ul>
+                  <li>EB requires a specific zip structure — make sure your <code>.ebextensions</code> folder is at the root</li>
+                  <li>Database migrations don't run automatically — add them as a container command in <code>.ebextensions/db-migrate.config</code></li>
+                  <li>Static files need to be collected before deploy — add <code>python manage.py collectstatic --noinput</code> to your build step</li>
+                  <li>Health checks will fail if your app takes too long to start — configure the health check path and grace period in EB</li>
+                </ul>
+
+                <blockquote>The biggest lesson: test your deployment pipeline in staging first. I once pushed a migration that dropped a column and only caught it because staging caught it first.</blockquote>
+              `
+            },
+            template: {
+              category: 'Your Category',
+              date: 'Your Date Here',
+              title: '📝 Blog Post Template — Replace This Title with Yours',
+              readTime: '? min read',
+              tags: ['Tag1', 'Tag2', 'Tag3'],
+              body: `
+                <p>This is your <strong>blog post template</strong>. Copy this structure for every new post. The intro paragraph hooks the reader — state the problem you solved or the insight you're sharing. Keep it tight: 2-3 sentences max.</p>
+
+                <h2>Section Heading (H2)</h2>
+                <p>Use H2 for major sections. Each section should have 1-3 paragraphs. Don't over-explain — your readers are technical. Show, don't tell. Use code blocks for any code.</p>
+                <pre><code>// Your code goes here
+      // Keep examples minimal and focused
+      const example = "show only what's relevant";</code></pre>
+
+                <h2>Use Blockquotes for Key Insights</h2>
+                <blockquote>This is a blockquote. Use it for a key insight, a lesson learned, or a memorable takeaway. One per major section is enough.</blockquote>
+
+                <h2>Use Lists for Steps or Lessons</h2>
+                <ul>
+                  <li>First lesson or step — be specific, give numbers where possible</li>
+                  <li>Second lesson — what would you do differently?</li>
+                  <li>Third lesson — what's the broader principle here?</li>
+                </ul>
+
+                <h3>Subsection (H3)</h3>
+                <p>Use H3 for sub-topics within a section. If you're going deeper than H3, consider splitting into separate sections.</p>
+
+                <hr>
+                <div class="article-divider">* * *</div>
+
+                <p>End with a conclusion that brings it full circle. Reference the problem from your intro, summarize what you solved, and optionally hint at what's next or invite the reader to share thoughts.</p>
+
+                <p><em>Tips for adding a new post:</em><br>
+                1. Open <code>blog.html</code><br>
+                2. Add a new entry in the <code>posts</code> object in the JavaScript<br>
+                3. Add a new post card in the HTML list with <code>onclick="openPost('yourPostId')"</code><br>
+                4. That's it — the template handles the rest.</p>
+              `
+            }
+          };
+
+          function openPost(id) {
+            const post = posts[id];
+            if (!post) return;
+            document.getElementById('pv-category').textContent = post.category;
+            document.getElementById('pv-date').textContent = post.date;
+            document.getElementById('pv-title').textContent = post.title;
+            document.getElementById('pv-meta').textContent = `${post.readTime} · Backend Developer`;
+            document.getElementById('pv-body').innerHTML = post.body;
+
+            const tagsEl = document.getElementById('pv-tags');
+            tagsEl.innerHTML = post.tags.map(t => `<span style="font-family:var(--font-mono);font-size:10px;color:var(--accent);border:1px solid rgba(0,212,255,0.2);padding:4px 10px;letter-spacing:0.08em;text-transform:uppercase;">${t}</span>`).join('');
+
+            document.getElementById('list-view').style.display = 'none';
+            document.getElementById('post-view').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+
+          function closePost() {
+            document.getElementById('list-view').style.display = 'block';
+            document.getElementById('post-view').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+    </script>
+  </body>
+</html>
