@@ -45,7 +45,7 @@
         font-family: var(--font-body);
         font-weight: 300;
         overflow-x: hidden;
-        cursor: none;
+        /* cursor: none; */
       }
 
       /* Custom cursor */
@@ -438,45 +438,39 @@
         font-size: 13px;
       }
 
-      .about-skills {
+      /* Tech tags grid — replaces skill bars */
+      .tech-grid {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 28px;
       }
-      .skill-row {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
-      .skill-name {
-        font-family: var(--font-mono);
-        font-size: 12px;
-        color: var(--text-muted);
-        width: 110px;
-        letter-spacing: 0.05em;
-      }
-      .skill-bar {
-        flex: 1;
-        height: 2px;
-        background: var(--bg3);
-        position: relative;
-        overflow: hidden;
-      }
-      .skill-fill {
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        background: linear-gradient(90deg, var(--accent2), var(--accent));
-        width: 0;
-        transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .skill-pct {
+      .tech-group-label {
         font-family: var(--font-mono);
         font-size: 11px;
         color: var(--text-muted);
-        width: 36px;
-        text-align: right;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .tech-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tech-tag {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--accent);
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        padding: 5px 12px;
+        letter-spacing: 0.08em;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+      }
+      .tech-tag:hover {
+        background: var(--accent-glow);
+        border-color: rgba(0, 212, 255, 0.5);
       }
 
       /* FEATURED PROJECTS */
@@ -918,8 +912,8 @@
     </style>
   </head>
   <body>
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
+    <!-- <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div> -->
 
     <!-- NAV -->
     <nav id="navbar">
@@ -938,6 +932,9 @@
         <li><a href="index.html" class="active">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="projects.html">Projects</a></li>
+        <li>
+          <a href="https://youtube.com/@adarshh1o1" target="_blank">YouTube</a>
+        </li>
         <!-- <li><a href="blog.html">Blog</a></li> -->
         <!-- <li><a href="contact.html">Contact</a></li> -->
       </ul>
@@ -961,7 +958,7 @@
           about experimentation and continuous learning, he enjoys turning ideas
           into reliable and efficient digital products.
           <br />
-          <span style="color: #666"> ~ ChatGPT</span>
+          <span style="color: #666"> ~ Claude</span>
         </p>
         <div class="hero-cta">
           <a href="projects.html" class="btn-primary">View Projects →</a>
@@ -975,6 +972,10 @@
       </div>
 
       <div class="hero-counter">
+        <div class="counter-item">
+          <div class="counter-num">4200+</div>
+          <div class="counter-label">Views on Youtube</div>
+        </div>
         <div class="counter-item">
           <div class="counter-num">4+</div>
           <div class="counter-label">Projects</div>
@@ -994,77 +995,41 @@
     <div class="marquee-section">
       <div class="marquee-track" id="marqueeTrack">
         <div class="marquee-item">
-          <span>Node.js</span><span class="marquee-dot"></span>
-        </div>
-        <div class="marquee-item">
-          <span>Django REST</span><span class="marquee-dot"></span>
+          <span>Backend Engineering</span><span class="marquee-dot"></span>
         </div>
         <div class="marquee-item">
           <span>WebRTC</span><span class="marquee-dot"></span>
         </div>
         <div class="marquee-item">
-          <span>WebSockets</span><span class="marquee-dot"></span>
+          <span>DevOps & Cloud</span><span class="marquee-dot"></span>
         </div>
         <div class="marquee-item">
-          <span>Docker</span><span class="marquee-dot"></span>
+          <span>Real-time Systems</span><span class="marquee-dot"></span>
         </div>
         <div class="marquee-item">
-          <span>AWS EC2</span><span class="marquee-dot"></span>
+          <span>YouTube: @adarshh1o1</span><span class="marquee-dot"></span>
         </div>
         <div class="marquee-item">
-          <span>Redis</span><span class="marquee-dot"></span>
-        </div>
-        <div class="marquee-item">
-          <span>MySQL</span><span class="marquee-dot"></span>
-        </div>
-        <div class="marquee-item">
-          <span>CI/CD</span><span class="marquee-dot"></span>
-        </div>
-        <div class="marquee-item">
-          <span>Flutter</span><span class="marquee-dot"></span>
-        </div>
-        <div class="marquee-item">
-          <span>P2P Networking</span><span class="marquee-dot"></span>
-        </div>
-        <div class="marquee-item">
-          <span>JWT Auth</span><span class="marquee-dot"></span>
+          <span>4200+ views</span><span class="marquee-dot"></span>
         </div>
         <!-- Duplicate for seamless loop -->
         <div class="marquee-item">
-          <span>Node.js</span><span class="marquee-dot"></span>
-        </div>
-        <div class="marquee-item">
-          <span>Django REST</span><span class="marquee-dot"></span>
+          <span>Backend Engineering</span><span class="marquee-dot"></span>
         </div>
         <div class="marquee-item">
           <span>WebRTC</span><span class="marquee-dot"></span>
         </div>
         <div class="marquee-item">
-          <span>WebSockets</span><span class="marquee-dot"></span>
+          <span>DevOps & Cloud</span><span class="marquee-dot"></span>
         </div>
         <div class="marquee-item">
-          <span>Docker</span><span class="marquee-dot"></span>
+          <span>Real-time Systems</span><span class="marquee-dot"></span>
         </div>
         <div class="marquee-item">
-          <span>AWS EC2</span><span class="marquee-dot"></span>
+          <span>YouTube: @adarshh1o1</span><span class="marquee-dot"></span>
         </div>
         <div class="marquee-item">
-          <span>Redis</span><span class="marquee-dot"></span>
-        </div>
-        <div class="marquee-item">
-          <span>MySQL</span><span class="marquee-dot"></span>
-        </div>
-        <div class="marquee-item">
-          <span>CI/CD</span><span class="marquee-dot"></span>
-        </div>
-        <div class="marquee-item">
-          <span>Flutter</span><span class="marquee-dot"></span>
-        </div>
-        <div class="marquee-item">
-          <span>P2P Networking</span><span class="marquee-dot"></span>
-        </div>
-        <div class="marquee-item">
-          <span>JWT Auth</span><span class="marquee-dot"></span>
+          <span>4200+ views</span><span class="marquee-dot"></span>
         </div>
       </div>
     </div>
@@ -1074,55 +1039,52 @@
       <div class="about-strip-inner">
         <div class="about-text reveal">
           <p>
-            I'm a
-            <strong>final-year Computer Science student</strong> Passionate
-            about server-side development and System Design. I ought to build
-            things that are fast, reliable, and actually used by people.
+            I'm a <strong>final-year CS student</strong> who builds things to
+            understand how they work — not to add frameworks to a resume.
           </p>
           <p>
-            My work spans <strong>WebRTC P2P video streaming</strong>, real-time
-            chat infrastructure, efficent file sharing platforms, and social
-            collaboration tools.
+            My work spans <strong>WebRTC P2P streaming</strong>, real-time chat
+            infrastructure, creator platforms, and cloud file systems. Every
+            project started with a question I couldn't stop thinking about.
+          </p>
+          <p>
+            The same curiosity carries into my
+            <strong>YouTube channel</strong> — I explain how the internet
+            actually works. DNS, CDNs, proxies, WebRTC, backend systems and
+            more. Teaching is how I pressure-test my own understanding.
           </p>
           <span class="highlight"
             >// Currently open to backend & DevOps roles</span
           >
         </div>
-        <div class="about-skills reveal">
-          <div class="skill-row">
-            <span class="skill-name">Backend</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="72"></div>
+        <div class="tech-grid reveal">
+          <div>
+            <div class="tech-group-label">Backend & Runtime</div>
+            <div class="tech-tags">
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">Express.js</span>
+              <span class="tech-tag">Django</span>
+              <span class="tech-tag">DRF</span>
             </div>
-            <span class="skill-pct">72%</span>
           </div>
-          <div class="skill-row">
-            <span class="skill-name">DevOps/Cloud</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="60"></div>
+          <div>
+            <div class="tech-group-label">Real-time & Protocols</div>
+            <div class="tech-tags">
+              <span class="tech-tag">WebRTC</span>
+              <span class="tech-tag">WebSockets</span>
+              <span class="tech-tag">Redis Pub/Sub</span>
+              <span class="tech-tag">P2P</span>
             </div>
-            <span class="skill-pct">60%</span>
           </div>
-          <div class="skill-row">
-            <span class="skill-name">Real-time</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="80"></div>
+          <div>
+            <div class="tech-group-label">Data & Infra</div>
+            <div class="tech-tags">
+              <span class="tech-tag">MongoDB</span>
+              <span class="tech-tag">MySQL</span>
+              <span class="tech-tag">Docker</span>
+              <span class="tech-tag">AWS EC2</span>
+              <span class="tech-tag">GitHub Actions</span>
             </div>
-            <span class="skill-pct">88%</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">Databases</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="75"></div>
-            </div>
-            <span class="skill-pct">75%</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">Networking</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="75"></div>
-            </div>
-            <span class="skill-pct">75%</span>
           </div>
         </div>
       </div>
@@ -1309,6 +1271,7 @@
         <a href="https://github.com/adarsh1o1" target="_blank">GitHub</a>
         <a href="https://linkedin.com/in/adarsh1o1" target="_blank">LinkedIn</a>
         <a href="mailto:adarshkushawha52@gmail.com">Email</a>
+        <a href="https://youtube.com/@adarshh1o1" target="_blank">YouTube</a>
       </div>
       <div class="footer-copy">
         <span>© 2025 Adarsh1o1.</span>
@@ -1319,40 +1282,6 @@
     </footer>
 
     <script>
-      // Cursor
-      const cursor = document.getElementById("cursor");
-      const ring = document.getElementById("cursorRing");
-      let mx = 0,
-        my = 0,
-        rx = 0,
-        ry = 0;
-      document.addEventListener("mousemove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-      });
-      function animCursor() {
-        cursor.style.left = mx - 4 + "px";
-        cursor.style.top = my - 4 + "px";
-        rx += (mx - rx) * 0.12;
-        ry += (my - ry) * 0.12;
-        ring.style.left = rx - 16 + "px";
-        ring.style.top = ry - 16 + "px";
-        requestAnimationFrame(animCursor);
-      }
-      animCursor();
-      document.querySelectorAll("a, button").forEach((el) => {
-        el.addEventListener("mouseenter", () => {
-          ring.style.width = "48px";
-          ring.style.height = "48px";
-          ring.style.borderColor = "rgba(0,212,255,0.6)";
-        });
-        el.addEventListener("mouseleave", () => {
-          ring.style.width = "32px";
-          ring.style.height = "32px";
-          ring.style.borderColor = "rgba(0,212,255,0.4)";
-        });
-      });
-
       // Navbar scroll
       window.addEventListener("scroll", () => {
         document

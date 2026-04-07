@@ -41,7 +41,6 @@
         font-family: var(--font-body);
         font-weight: 300;
         overflow-x: hidden;
-        cursor: none;
       }
       .cursor {
         position: fixed;
@@ -716,9 +715,6 @@
     </style>
   </head>
   <body>
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
-
     <nav>
       <a href="index.html" class="nav-logo">// dev.portfolio</a>
       <button
@@ -751,35 +747,35 @@
         <div class="section-label reveal">Background</div>
         <div class="bio-text">
           <p class="reveal">
-            I'm a <strong>final-year Computer Science student</strong> with a
-            deep focus on backend systems, real-time communication protocols,
-            and cloud infrastructure. I don't just write code — I engineer
-            systems with an obsession over
-            <strong>latency, reliability, and scalability</strong>.
+            I'm a <strong>final-year CS student</strong>
+            with a deep focus on backend systems, real-time protocols, and
+            infrastructure. But the honest version is simpler: I build things
+            because I can't stop asking how they work.
           </p>
           <p class="reveal">
             My journey started with wanting to understand how the web actually
             works — not just building CRUD apps, but diving into
-            <span class="accent-word">P2P networking</span>,
+            <span class="accent-word"></span>,
             <span class="accent-word">WebSocket protocols</span>,
             <span class="accent-word">video streaming pipelines</span>, and
-            <span class="accent-word">distributed systems</span>. Every project
-            I've built has pushed me to learn something fundamentally new.
+            <span class="accent-word">distributed systems</span>. I built
+            EazyCam because I wanted to understand how real-time video actually
+            moves between devices — wired and wirelessly. I built Who's There
+            because I wanted to feel what sub-400ms message delivery means
+            architecturally, not just read about it. I built ProjectPals because
+            finding the right collaborator in college was genuinely broken, and
+            45+ students ended up using what I made. That same curiosity is
+            why..?
           </p>
           <p class="reveal">
-            I built <strong>EazyCam</strong> because I was frustrated with
-            existing webcam apps and wanted to understand WebRTC from first
-            principles. I built <strong>Who's There</strong> because I wanted to
-            feel what &lt;400ms message delivery actually means architecturally.
-            I built <strong>ProjectPals</strong> because my college had a real
-            problem with students not being able to find collaborators — and 45+
-            students actually used it.
+            I started a YouTube channel. I explain backend systems, how the
+            internet infrastructure works not to grow an audience, but because
+            explaining something clearly is the hardest test of whether you
+            actually understand it. <strong>4200+ views</strong> so far.
           </p>
           <p class="reveal">
-            I believe the best engineers are obsessively curious. I spend my
-            free time reading about systems design, contributing to open source
-            when I can, and writing about the technical problems I've solved —
-            because teaching is the deepest form of understanding.
+            I pick up tools as I need them. The question comes first, the
+            framework second.
           </p>
         </div>
 
@@ -790,7 +786,7 @@
             <li class="timeline-item">
               <div class="timeline-year">2025 — Present</div>
               <div class="timeline-event">
-                Final Year — Open to Opportunities, building Dropp
+                Final Year — Started Youtube, building Dropp
               </div>
               <div class="timeline-sub">
                 Actively building, writing, and looking for backend / DevOps
@@ -827,6 +823,18 @@
 
       <!-- SIDEBAR -->
       <aside class="sidebar">
+        <div class="info-block reveal">
+          <div class="info-block-title">// Subscribe to My Channel</div>
+          <a href="https://www.youtube.com/@adarshh1o1" class="link-item">
+            <div class="link-icon">@</div>
+            <div class="link-info">
+              <div class="link-name">Youtube</div>
+              <div class="link-handle">@adarshh1o1</div>
+            </div>
+            <span class="link-arrow">→</span>
+          </a>
+        </div>
+
         <div class="sidebar-card reveal">
           <div class="sidebar-card-title">// Status</div>
           <ul class="info-list">
@@ -863,15 +871,12 @@
             <span class="tech-chip">Django</span>
             <span class="tech-chip">DRF</span>
             <span class="tech-chip">MongoDB</span>
-            <span class="tech-chip">Python</span>
-            <span class="tech-chip">Flutter</span>
             <span class="tech-chip">MySQL</span>
             <span class="tech-chip">Redis</span>
             <span class="tech-chip">WebRTC</span>
             <span class="tech-chip">WebSockets</span>
             <span class="tech-chip">Docker</span>
             <span class="tech-chip">AWS EC2</span>
-            <span class="tech-chip">AWS ElasticBeanstalk</span>
             <span class="tech-chip">GitHub Actions</span>
             <span class="tech-chip">JWT</span>
             <span class="tech-chip">Linux</span>
@@ -879,10 +884,21 @@
           </div>
         </div>
 
+        <!-- <div class="info-block reveal">
+          <div class="info-block-title">// Subscribe to My Channel</div>
+          <a href="https://www.youtube.com/@adarshh1o1" class="link-item">
+            <div class="link-icon">@</div>
+            <div class="link-info">
+              <div class="link-name">Youtube</div>
+              <div class="link-handle">@adarshh1o1</div>
+            </div>
+            <span class="link-arrow">→</span>
+          </a>
+        </div> -->
+
         <div class="info-block reveal">
           <div class="info-block-title">// Reach Me Directly</div>
-
-          <a href="mailto:you@email.com" class="link-item">
+          <a href="mailto:adarshkushawha52@gmail.com" class="link-item">
             <div class="link-icon">@</div>
             <div class="link-info">
               <div class="link-name">Email</div>
@@ -937,7 +953,7 @@
           <div class="location-visual">
             <div class="location-pin">◎</div>
             <div class="location-info">
-              <div class="location-city">India</div>
+              <div class="location-city">Gurugram, India</div>
               <div class="location-sub">Open to remote</div>
               <div class="location-time" id="localTime">IST — loading...</div>
             </div>
@@ -952,29 +968,41 @@
       <div class="services-grid">
         <div class="service-card reveal">
           <div class="service-num">01</div>
-          <div class="service-name">Backend Engineering</div>
+          <div class="service-name">Content</div>
           <div class="service-desc">
-            REST APIs, WebSocket servers, authentication systems, and database
-            design. Focus on clean architecture, performance, and
-            maintainability using Node.js and Django/DRF.
+            I run a YouTube channel (@adarshh1o1) explaining how the internet
+            works — DNS, CDNs, WebRTC, proxies, VPNs. 4200+ views. Teaching is
+            how I pressure-test my own understanding.
           </div>
         </div>
         <div class="service-card reveal">
           <div class="service-num">02</div>
-          <div class="service-name">Real-time Systems</div>
+          <div class="service-name">
+            Backend Engineering & Real-time Systems
+          </div>
           <div class="service-desc">
-            WebSocket-based messaging, WebRTC peer-to-peer connections, Redis
-            pub/sub for horizontal scaling. Built systems handling 1000+
-            messages/day with sub-400ms delivery.
+            P2P, WebSocket messaging, Redis pub/sub, REST APIs, WebSocket
+            servers, auth systems, and database design. I care less about which
+            framework and more about why the architecture is structured the way
+            it is and what breaks when it isn't.
           </div>
         </div>
+        <!-- <div class="service-card reveal">
+          <div class="service-num">02</div>
+          <div class="service-name">Real-time Systems</div>
+          <div class="service-desc">
+            WebRTC P2P, WebSocket messaging, Redis pub/sub. I've built systems
+            handling 1,000+ messages/day at sub-400ms delivery — and debugged
+            the parts that didn't work the first time.
+          </div>
+        </div> -->
         <div class="service-card reveal">
           <div class="service-num">03</div>
           <div class="service-name">DevOps & Cloud</div>
           <div class="service-desc">
-            Docker containerization, CI/CD pipelines with GitHub Actions, AWS
-            EC2 and Elastic Beanstalk deployments. Infrastructure that ships
-            reliably and scales predictably.
+            Docker, GitHub Actions CI/CD, AWS EC2, Digital Ocean VPS
+            Infrastructure as something you own end-to-end, not hand off to
+            someone else.
           </div>
         </div>
       </div>
@@ -1001,38 +1029,6 @@
     </footer>
 
     <script>
-      const cursor = document.getElementById("cursor"),
-        ring = document.getElementById("cursorRing");
-      let mx = 0,
-        my = 0,
-        rx = 0,
-        ry = 0;
-      document.addEventListener("mousemove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-      });
-      function anim() {
-        cursor.style.left = mx - 4 + "px";
-        cursor.style.top = my - 4 + "px";
-        rx += (mx - rx) * 0.12;
-        ry += (my - ry) * 0.12;
-        ring.style.left = rx - 16 + "px";
-        ring.style.top = ry - 16 + "px";
-        requestAnimationFrame(anim);
-      }
-      anim();
-      document.querySelectorAll("a,button").forEach((el) => {
-        el.addEventListener("mouseenter", () => {
-          ring.style.width = "48px";
-          ring.style.height = "48px";
-          ring.style.borderColor = "rgba(0,212,255,0.6)";
-        });
-        el.addEventListener("mouseleave", () => {
-          ring.style.width = "32px";
-          ring.style.height = "32px";
-          ring.style.borderColor = "rgba(0,212,255,0.4)";
-        });
-      });
       const obs = new IntersectionObserver(
         (entries) => {
           entries.forEach((e, i) => {
